@@ -21,18 +21,22 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    const user = await this.userModel.find({_id: id});
+    const user = await this.userModel.findOne({_id: id});
     if (!user) throw new NotFoundException('could not find the user');
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const checkUser = await this.userModel.findOne({_id: id});
+    if (!checkUser) throw new NotFoundException('could not find the user');
     return this.userModel.findByIdAndUpdate(id, updateUserDto, {
       new: true
     })
   }
 
-  remove(id: number) {
+  async remove(id: string) {
+    const checkUser = await this.userModel.findOne({_id: id});
+    if (!checkUser) throw new NotFoundException('could not find the user');
     return this.userModel.findByIdAndDelete(id);
   }
 }
