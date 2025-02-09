@@ -5,10 +5,11 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import 'dotenv/config'
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/auth-workshop'),
+    MongooseModule.forRoot(process.env.MONGO_STRING),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
