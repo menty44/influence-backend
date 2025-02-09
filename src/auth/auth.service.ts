@@ -25,14 +25,14 @@ export class AuthService {
   }
 
   async signUp(signupDto: CreateAuthDto) {
-    const { firstname, lastname, role, gender,email, password } = signupDto;
+    const { firstname, lastname, role, gender, email, password } = signupDto;
 
     const existingUser = await this.checkEmail(email);
 
     if (existingUser) {
       throw new UnauthorizedException('email already exists');
     }
-    
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.userModel.create({
