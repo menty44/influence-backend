@@ -8,6 +8,8 @@ import { PassportModule } from '@nestjs/passport';
 import { User, UserSchema } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { UsersModule } from 'src/users/users.module';
+import { AuthGuard } from './auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -27,6 +29,9 @@ import { UsersModule } from 'src/users/users.module';
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService],
+  providers: [AuthService, UsersService, {
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+  },],
 })
 export class AuthModule {}
